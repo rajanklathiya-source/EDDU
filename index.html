@@ -6,35 +6,238 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-    body { margin:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f5f5f5; line-height: 1.6; }
+body {
+    margin:0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:#f5f5f5;
+    line-height: 1.6;
+}
 
-    /* HEADER */
-    .header {
-        background:#f04e2a;
-        color:white;
-        padding:15px 20px;
-        display:flex;
-        align-items:center;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
+/* HEADER */
+.header {
+    background:#f04e2a;
+    color:white;
+    padding:10px 20px;
+    display:flex;
+    align-items:center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 
-    /* UPDATED LOGO */
-    .logo {
-        width:60px;
-        height:60px;
-        margin-right:15px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-    }
-    .logo img {
-        width:100%;
-        height:100%;
-        object-fit:contain;
-        border-radius:5px;
-    }
+.logo img {
+    width:55px;
+    height:55px;
+    object-fit:contain;
+    margin-right:15px;
+    border-radius:6px;
+    background:white;
+    padding:3px;
+}
 
-    .header h2 { margin:0; font-size: 24px; }
+.header h2 {
+    margin:0;
+    font-size:24px;
+}
+
+/* NAV */
+nav {
+    background:#222;
+    padding:12px;
+    text-align:center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav a {
+    color:white;
+    margin:0 15px;
+    text-decoration:none;
+    cursor:pointer;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color:#f04e2a;
+}
+
+/* SECTIONS */
+section {
+    display:none;
+    padding:30px 20px;
+    max-width: 900px;
+    margin:auto;
+}
+
+.active {
+    display:block;
+}
+
+.container {
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* FORM */
+form {
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    max-width:500px;
+    margin:auto;
+}
+
+.input-group {
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.input-group label {
+    font-size:14px;
+    font-weight:bold;
+    color:#444;
+}
+
+input, select {
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:5px;
+    font-size:16px;
+}
+
+button, input[type=submit] {
+    background:#f04e2a;
+    color:white;
+    border:none;
+    padding:12px;
+    cursor:pointer;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+button:hover {
+    background:#d63d1e;
+}
+
+/* BRANCH */
+.lab {
+    border-left:4px solid #f04e2a;
+    background:#fff5f2;
+    padding:10px;
+    margin:5px 0;
+    font-weight:bold;
+}
+
+.tag {
+    background:#222;
+    color:white;
+    padding:6px 12px;
+    display:inline-block;
+    margin-top:15px;
+    border-radius:3px;
+}
+
+.stats-box {
+    background:#f9f9f9;
+    padding:15px;
+    margin-top:15px;
+    border-radius:5px;
+}
+
+img {
+    max-width:100%;
+    border-radius:8px;
+}
+</style>
+
+<script>
+function showPage(id){
+    document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
+
+function submitForm(e){
+    e.preventDefault();
+    let name = document.getElementById("name").value;
+    document.getElementById("welcome").innerText = "Welcome, " + name + "!";
+    showPage('branchPage');
+}
+
+function showBranch(branch){
+    showPage('details');
+
+    let data = {
+        IT: `<h3>Information Technology</h3>
+        <div class="lab">Programming Lab</div>
+        <img src="https://images.unsplash.com/photo-1581092335397-9583eb92d232">
+        <div class="stats-box">Placement: 90%</div>`,
+
+        CE: `<h3>Computer Engineering</h3>
+        <div class="lab">AI Lab</div>
+        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c">
+        <div class="stats-box">Placement: 92%</div>`
+    };
+
+    document.getElementById("branchTitle").innerText = branch;
+    document.getElementById("branchDesc").innerHTML = data[branch];
+}
+</script>
+</head>
+
+<body onload="showPage('home')">
+
+<div class="header">
+    <!-- ✅ YOUR LOGO ADDED HERE -->
+    <div class="logo">
+        <img src="ddu-logo.png" alt="DDU Logo">
+    </div>
+    <h2>Dharmsinh Desai University</h2>
+</div>
+
+<nav>
+    <a onclick="showPage('home')">Register</a>
+    <a onclick="showPage('branchPage')">Explore Branches</a>
+    <a onclick="showPage('contact')">Contact</a>
+</nav>
+
+<section id="home" class="active">
+    <div class="container">
+        <h2 style="text-align:center; color:#f04e2a;">Student Registration</h2>
+        <form onsubmit="submitForm(event)">
+            <input id="name" type="text" placeholder="Full Name" required>
+            <input type="email" placeholder="Email" required>
+            <input type="submit" value="Register">
+        </form>
+    </div>
+</section>
+
+<section id="branchPage">
+    <div class="container" style="text-align:center;">
+        <h2 id="welcome"></h2>
+        <button onclick="showBranch('IT')">IT</button>
+        <button onclick="showBranch('CE')">CE</button>
+    </div>
+</section>
+
+<section id="details">
+    <div class="container">
+        <h2 id="branchTitle"></h2>
+        <div id="branchDesc"></div>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="container">
+        <h2>Contact</h2>
+        <p>Email: info@ddu.ac.in</p>
+    </div>
+</section>
+
+</body>
+</html>    .header h2 { margin:0; font-size: 24px; }
 
     /* NAV */
     nav {
