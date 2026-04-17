@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DDU Admission Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body { margin:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f5f5f5; line-height: 1.6; }
+
+    /* HEADER */
+    .header {
+        background:#f04e2a;
+        color:white;
+        padding:15px 20px;
+        display:flex;
+        align-items:center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .logo {
+        width:50px;
+        height:50px;
+        background:black;
+        color:white;
+        font-weight:bold;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        margin-right:15px;
+        font-size:22px;
+        border-radius: 4px;
+    }
+    .header h2 { margin:0; font-size: 24px; }
+
+    /* NAV */
+    nav {
+        background:#222;
+        padding:12px;
+        text-align:center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    nav a {
+        color:white;
+        margin:0 15px;
+        text-decoration:none;
+        cursor:pointer;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+    nav a:hover { color: #f04e2a; }
+
+    /* SECTIONS */
+    section { display:none; padding:30px 20px; max-width: 900px; margin: auto; }
+    .active { display:block; }
+
+    .container {
+        background:white;
+        padding:30px;
+        border-radius:10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    /* FORM */
+    form { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: auto; }
+    
+    .input-group { display: flex; flex-direction: column; gap: 5px; }
+    .input-group label { font-size: 14px; font-weight: bold; color: #444; margin-left: 2px; }
+
+    input, select {
+        padding:12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    button, input[type=submit] {
+        background:#f04e2a;
+        color:white;
+        border:none;
+        padding:12px 20px;
+        margin-top:10px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+    button:hover, input[type=submit]:hover { background: #d63d1e; }
+
+    /* BRANCH INFO STYLING */
+    .lab { border-left: 4px solid #f04e2a; background: #fff5f2; padding:10px; margin: 5px 0; font-weight: bold; }
+    .tag { background:#222; color:white; padding:6px 12px; display:inline-block; margin-top: 15px; border-radius: 3px; }
+    .stats-box { display: flex; gap: 20px; background: #f9f9f9; padding: 15px; margin-top: 15px; border-radius: 5px; }
+    img { border-radius: 8px; margin: 15px 0; max-width: 100%; }
+</style>
+
+<script>
+    function showPage(id){
+        document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        window.scrollTo(0,0);
+    }
+
+    function submitForm(e){
+        e.preventDefault();
+        let name = document.getElementById("name").value;
+        document.getElementById("welcome").innerText = "Welcome, " + name + "!";
+        showPage('branchPage');
+    }
+
+    function showBranch(branch){
+        showPage('details');
+        let data = {
+            IT: `<h3>Information Technology</h3>
+            <div class="lab">Programming & Web Tech Lab</div>
+            <div class="lab">Advanced Software Lab</div>
+            <div class="lab">IoT & Mobile Computing Lab</div>
+            <img src="https://images.unsplash.com/photo-1581092335397-9583eb92d232">
+            <div class="tag">Overview</div>
+            <p>The IT branch focuses on modern software development and AI.</p>
+            <div class="stats-box"><b>Seats:</b> 150 | <b>Placement:</b> 90% | <b>Avg:</b> 7 LPA</div>`,
+            
+            CE: `<h3>Computer Engineering</h3>
+            <div class="lab">Data Structures Lab</div>
+            <div class="lab">AI & Machine Learning Lab</div>
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c">
+            <div class="stats-box"><b>Seats:</b> 180 | <b>Placement:</b> 92% | <b>Avg:</b> 7.5 LPA</div>`,
+
+            CS: `<h3>Computer Science & Engineering</h3>
+            <div class="lab">Cyber Security Lab</div>
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b">
+            <div class="stats-box"><b>Seats:</b> 60 | <b>Placement:</b> 95% | <b>Avg:</b> 8 LPA</div>`,
+
+            Mechanical: `<h3>Mechanical Engineering</h3>
+            <div class="lab">Robotics & Automation Lab</div>
+            <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc">
+            <div class="stats-box"><b>Seats:</b> 120 | <b>Placement:</b> 75% | <b>Avg:</b> 4.5 LPA</div>`,
+
+            Chemical: `<h3>Chemical Engineering</h3>
+            <div class="lab">Process Control Lab</div>
+            <img src="https://images.unsplash.com/photo-1532187863486-abf9d39d99c5">
+            <div class="stats-box"><b>Seats:</b> 60 | <b>Placement:</b> 85% | <b>Avg:</b> 5.5 LPA</div>`,
+
+            EC: `<h3>Electronics & Communication</h3>
+            <div class="lab">VLSI Design Lab</div>
+            <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0">
+            <div class="stats-box"><b>Seats:</b> 120 | <b>Placement:</b> 80% | <b>Avg:</b> 6 LPA</div>`,
+
+            Civil: `<h3>Civil Engineering</h3>
+            <div class="lab">Structural Engineering Lab</div>
+            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e">
+            <div class="stats-box"><b>Seats:</b> 60 | <b>Placement:</b> 70% | <b>Avg:</b> 4 LPA</div>`
+        };
+
+        document.getElementById("branchTitle").innerText = branch;
+        document.getElementById("branchDesc").innerHTML = data[branch] || "Information currently being updated.";
+    }
+</script>
+</head>
+
+<body onload="showPage('home')">
+
+<div class="header">
+    <div class="logo">DDU</div>
+    <h2>Dharmsinh Desai University</h2>
+</div>
+
+<nav>
+    <a onclick="showPage('home')">Register</a>
+    <a onclick="showPage('branchPage')">Explore Branches</a>
+    <a onclick="showPage('contact')">Contact</a>
+</nav>
+
+<section id="home" class="active">
+    <div class="container">
+        <h2 style="text-align:center; color:#f04e2a;">Student Registration Form</h2>
+        <form onsubmit="submitForm(event)">
+            <input id="name" type="text" placeholder="Full Name" required>
+            <input type="email" placeholder="Email Address" required>
+            <input type="tel" placeholder="Mobile Number" required>
+            
+            <div class="input-group">
+                <label for="dob">Date of Birth</label>
+                <input id="dob" type="date" required>
+            </div>
+            
+            <select required>
+                <option value="">Select Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+            </select>
+
+            <div style="background: #fdf2f0; padding: 15px; border-radius: 5px;">
+                <p style="margin: 0 0 10px 0; font-weight: bold; color: #f04e2a;">Branch Preferences</p>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <select required>
+                        <option value="">1st Preference</option>
+                        <option>IT</option><option>CE</option><option>CS</option>
+                        <option>EC</option><option>Chemical</option><option>Mechanical</option><option>Civil</option>
+                    </select>
+                    <select required>
+                        <option value="">2nd Preference</option>
+                        <option>IT</option><option>CE</option><option>CS</option>
+                        <option>EC</option><option>Chemical</option><option>Mechanical</option><option>Civil</option>
+                    </select>
+                    <select required>
+                        <option value="">3rd Preference</option>
+                        <option>IT</option><option>CE</option><option>CS</option>
+                        <option>EC</option><option>Chemical</option><option>Mechanical</option><option>Civil</option>
+                    </select>
+                </div>
+            </div>
+
+            <input type="text" placeholder="City" required>
+            <input type="text" placeholder="State" required>
+
+            <input type="submit" value="Register Now">
+        </form>
+    </div>
+</section>
+
+<section id="branchPage">
+    <div class="container" style="text-align: center;">
+        <h2 id="welcome" style="color: #222;"></h2>
+        <p>Explore our engineering departments:</p>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+            <button onclick="showBranch('IT')">Information Technology</button>
+            <button onclick="showBranch('CE')">Computer Engineering</button>
+            <button onclick="showBranch('CS')">Computer Science</button>
+            <button onclick="showBranch('EC')">Electronics & Comm.</button>
+            <button onclick="showBranch('Chemical')">Chemical Engineering</button>
+            <button onclick="showBranch('Mechanical')">Mechanical Engineering</button>
+            <button onclick="showBranch('Civil')">Civil Engineering</button>
+        </div>
+    </div>
+</section>
+
+<section id="details">
+    <div class="container">
+        <h2 id="branchTitle" style="color:#f04e2a; border-bottom: 2px solid #f04e2a; padding-bottom: 10px;"></h2>
+        <div id="branchDesc"></div>
+        <br>
+        <button onclick="showPage('branchPage')" style="background: #222;">← Back to Branches</button>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="container">
+        <h2 style="color:#f04e2a;">Contact Information</h2>
+        <hr>
+        <p><b>Address:</b> College Road, Nadiad, Gujarat 387001</p>
+        <p><b>General Inquiry:</b> +91 268 2520502</p>
+        <p><b>Email:</b> info@ddu.ac.in</p>
+        <p><b>Working Hours:</b> 10:30 AM to 5:30 PM</p>
+    </div>
+</section>
+
+</body>
+</html>
