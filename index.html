@@ -6,35 +6,178 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-    margin:0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background:#f5f5f5;
-    line-height: 1.6;
-}
+    body { margin:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f5f5f5; line-height: 1.6; }
 
-/* HEADER */
-.header {
-    background:#f04e2a;
-    color:white;
-    padding:10px 20px;
-    display:flex;
-    align-items:center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
+    /* HEADER */
+    .header {
+        background:#f04e2a;
+        color:white;
+        padding:15px 20px;
+        display:flex;
+        align-items:center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
 
-.logo img {
-    width:55px;
-    height:55px;
-    object-fit:contain;
-    margin-right:15px;
-    border-radius:6px;
-    background:white;
-    padding:3px;
-}
+    /* LOGO UPDATED */
+    .logo {
+        width:60px;
+        height:60px;
+        margin-right:15px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+    .logo img {
+        width:100%;
+        height:100%;
+        object-fit:contain;
+        border-radius:5px;
+    }
 
-.header h2 {
-    margin:0;
+    .header h2 { margin:0; font-size: 24px; }
+
+    /* NAV */
+    nav {
+        background:#222;
+        padding:12px;
+        text-align:center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    nav a {
+        color:white;
+        margin:0 15px;
+        text-decoration:none;
+        cursor:pointer;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+    nav a:hover { color: #f04e2a; }
+
+    /* SECTIONS */
+    section { display:none; padding:30px 20px; max-width: 900px; margin: auto; }
+    .active { display:block; }
+
+    .container {
+        background:white;
+        padding:30px;
+        border-radius:10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    /* FORM */
+    form { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: auto; }
+    
+    .input-group { display: flex; flex-direction: column; gap: 5px; }
+    .input-group label { font-size: 14px; font-weight: bold; color: #444; margin-left: 2px; }
+
+    input, select {
+        padding:12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    button, input[type=submit] {
+        background:#f04e2a;
+        color:white;
+        border:none;
+        padding:12px 20px;
+        margin-top:10px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+    button:hover, input[type=submit]:hover { background: #d63d1e; }
+
+    /* BRANCH INFO */
+    .lab { border-left: 4px solid #f04e2a; background: #fff5f2; padding:10px; margin: 5px 0; font-weight: bold; }
+    .tag { background:#222; color:white; padding:6px 12px; display:inline-block; margin-top: 15px; border-radius: 3px; }
+    .stats-box { display: flex; gap: 20px; background: #f9f9f9; padding: 15px; margin-top: 15px; border-radius: 5px; }
+    img { border-radius: 8px; margin: 15px 0; max-width: 100%; }
+
+    /* RESPONSIVE */
+    @media(max-width:600px){
+        .header { flex-direction: column; text-align:center; }
+        .logo { margin-bottom:10px; }
+        nav a { display:block; margin:10px 0; }
+    }
+</style>
+
+<script>
+    function showPage(id){
+        document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        window.scrollTo(0,0);
+    }
+
+    function submitForm(e){
+        e.preventDefault();
+        let name = document.getElementById("name").value;
+        document.getElementById("welcome").innerText = "Welcome, " + name + "!";
+        showPage('branchPage');
+    }
+
+    function showBranch(branch){
+        showPage('details');
+        let data = {
+            IT: `<h3>Information Technology</h3>
+            <div class="lab">Programming & Web Tech Lab</div>
+            <div class="lab">Advanced Software Lab</div>
+            <img src="https://images.unsplash.com/photo-1581092335397-9583eb92d232">
+            <div class="stats-box"><b>Seats:</b> 150 | <b>Placement:</b> 90% | <b>Avg:</b> 7 LPA</div>`
+        };
+
+        document.getElementById("branchTitle").innerText = branch;
+        document.getElementById("branchDesc").innerHTML = data[branch] || "Updating...";
+    }
+</script>
+</head>
+
+<body onload="showPage('home')">
+
+<!-- HEADER -->
+<div class="header">
+    <div class="logo">
+        <img src="https://upload.wikimedia.org/wikipedia/en/0/0f/Dharmsinh_Desai_University_logo.png" alt="DDU Logo">
+    </div>
+    <h2>Dharmsinh Desai University</h2>
+</div>
+
+<!-- NAV -->
+<nav>
+    <a onclick="showPage('home')">Register</a>
+    <a onclick="showPage('branchPage')">Explore Branches</a>
+    <a onclick="showPage('contact')">Contact</a>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="active">
+    <div class="container">
+        <h2 style="text-align:center; color:#f04e2a;">Student Registration Form</h2>
+        <form onsubmit="submitForm(event)">
+            <input id="name" type="text" placeholder="Full Name" required>
+            <input type="email" placeholder="Email Address" required>
+            <input type="tel" placeholder="Mobile Number" required>
+            <input type="submit" value="Register Now">
+        </form>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+    <div class="container">
+        <h2 style="color:#f04e2a;">Contact Information</h2>
+        <p>Email: info@ddu.ac.in</p>
+    </div>
+</section>
+
+</body>
+</html>    margin:0;
     font-size:24px;
 }
 
